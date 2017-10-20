@@ -1,4 +1,12 @@
+import requests
 from bs4 import BeautifulSoup
+
+def getLastPage(url='https://police.lehigh.edu/crime-log'):
+    page= requests.get(url)
+    soup = BeautifulSoup(page.content, 'html.parser')
+    wrapLast = soup.find('li',class_='pager-last')
+    href = wrapLast.find('a')['href']
+    return int(href[-1:])
 
 def getReportedOn(OGForm):
     return OGForm[1].contents[1].getText()
