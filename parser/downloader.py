@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+from downloaderHelper import *
 
 
 url = 'https://police.lehigh.edu/crime-log'
@@ -7,22 +8,21 @@ page= requests.get(url)
 soup = BeautifulSoup(page.content, 'html.parser')
 
 #print soup
+
+
 '''
-for reportedOn in soup.find_all('span',class_="date-display-single"):
-    wrapDiv = reportedOn.parent.parent.parent
-    if wrapDiv.name == 'div' and wrapDiv['class'] == 'views-field-field-reported-on':
-        print reportedOn'''
+for eachReport in soup.find_all('div', class_='views-row'):
+    print "\n"
+'''
 
-for reportedOn in soup.find_all('span',class_='date-display-single'):
-    label = reportedOn.previous_sibling.previous_sibling.getText()
-    if label == 'Reported on:':
-        print reportedOn
+oneReport = soup.find_all('div', class_='views-row')[0]
+elements = oneReport.contents
 
-for incidentDateTime in soup.find_all('span',class_='date-display-single'):
-    label = incidentDateTime.previous_sibling.previous_sibling.getText()
-    if label == 'Incident Date/Time:':
-        print incidentDateTime
-
-for incidentType in soup.find_all('span',class_='field-content'):
-    if incidentType.parent.name == 'div':
-        print incidentType
+print getReportedOn(elements)
+print getIncidentDateTime(elements)
+print getDisposition(elements)
+print getIncidentType(elements)
+print getSuspectName(elements)
+print getIncidentLocation(elements)
+print getReportNumber(elements)
+print getDescription(elements)
