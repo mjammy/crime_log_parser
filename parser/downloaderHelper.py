@@ -24,10 +24,8 @@ def getDisposition(OGForm):
     return part
 
 def getIncidentType(OGForm):
-    whole = OGForm[7].contents[3].getText()
-    part = whole[9:]
-    return part
-
+    return OGForm[7].contents[3].getText()
+    
 def getSuspectName(OGForm):
     whole = OGForm[9].contents[1].getText()
     part = whole[14:]
