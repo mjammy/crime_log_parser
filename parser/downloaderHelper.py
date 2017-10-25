@@ -57,15 +57,15 @@ def getReport(elements):
     return report
 
 def printReport(elements):
-    print getReportedOn(elements)
-    print getIncidentDateTime(elements)
-    print getDisposition(elements)
-    print getIncidentType(elements)
-    print getSuspectName(elements)
-    print getIncidentLocation(elements)
-    print getReportNumber(elements)
-    print getDescription(elements)
-    print ('\n')
+    print(getReportedOn(elements))
+    print(getIncidentDateTime(elements))
+    print(getDisposition(elements))
+    print(getIncidentType(elements))
+    print(getSuspectName(elements))
+    print(getIncidentLocation(elements))
+    print(getReportNumber(elements))
+    print(getDescription(elements))
+    print('\n')
 
 def appendReport(report, allLists):
     for eachPart in range(0,8):
