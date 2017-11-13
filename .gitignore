@@ -1,4 +1,4 @@
 .vscode
 __pycache__
 *.pyc
-parsed_log.csv
+*.csv
