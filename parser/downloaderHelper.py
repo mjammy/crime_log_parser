@@ -8,15 +8,45 @@ def getLastPage(url='https://police.lehigh.edu/crime-log'):
     href = wrapLast.find('a')['href']
     return int(href[-1:])
 
+''' For Dates (So Tableau is happy) '''
+
+def formatDate(unformatted):
+    withoutDay = unformatted.split(',',1)[1][1:]
+    separatedDate = withoutDay.split(' ',3)
+    month = convertMonth(separatedDate[1])
+    day = separatedDate[0]
+    year = separatedDate[2]
+    formattedDate = str(month) + "/" + str(day) + "/" + str(year)
+    return formattedDate
+
+def convertMonth(strMonth):
+    months = {"January" : 1,
+              "February" : 2,
+              "March" : 3,
+              "April" : 4,
+              "May" : 5,
+              "June" : 6,
+              "July" : 7,
+              "August" : 8,
+              "September" : 9,
+              "October" : 10,
+              "November" : 11,
+              "December" : 12
+    }
+                    
+    return months[strMonth]
+
+''' Getters for each field of the entry '''
+
 def getReportedOn(OGForm):
     whole = OGForm[1].contents[1].getText()
     part = whole[13:]
-    return part
+    return formatDate(part)
 
 def getIncidentDateTime(OGForm):
     whole = OGForm[3].contents[1].getText()
     part = whole[20:]
-    return part
+    return formatDate(part)
 
 def getDisposition(OGForm):
     whole = OGForm[5].contents[1].getText()
@@ -43,6 +73,8 @@ def getReportNumber(OGForm):
 
 def getDescription(OGForm):
     return OGForm[15].contents[1].getText()
+
+''' High level helpers '''
 
 def getReport(elements):
     report = []

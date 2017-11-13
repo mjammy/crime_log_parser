@@ -28,7 +28,7 @@ for eachPage in range(0,lastPage+1):
         appendReport(report,allLists)
 
 
-d = { "Reported_On" : reportedOnList,
+d = {   "Reported_On" : reportedOnList,
         "Incident_Date_Time" :incidentDateTimeList,
         "Disposition" : dispositionList,
         "Incident_Type" : incidentTypeList,
@@ -40,5 +40,3 @@ d = { "Reported_On" : reportedOnList,
 df = pd.DataFrame(d)
 
 df.to_csv("parsed_log.csv")
-
-
