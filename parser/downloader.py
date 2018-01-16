@@ -1,7 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
-from downloaderHelper import *
 import pandas as pd
+import datetime
+
+from downloaderHelper import *
 
 urlTemp = 'https://police.lehigh.edu/crime-log?page='
 lastPage = getLastPage()
@@ -39,4 +41,8 @@ d = {   "Reported_On" : reportedOnList,
 
 df = pd.DataFrame(d)
 
-df.to_csv("parsed_log.csv")
+''' Set up file name structure'''
+now = datetime.datetime.now()
+fileName = "lehigh_log(" + now.strftime("%Y-%m-%d") + ").csv"
+
+df.to_csv(fileName)
