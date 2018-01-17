@@ -41,8 +41,9 @@ d = {   "Reported_On" : reportedOnList,
 
 df = pd.DataFrame(d)
 
-''' Set up file name structure'''
+# Set up file name structure
 now = datetime.datetime.now()
 fileName = "lehigh_log(" + now.strftime("%Y-%m-%d") + ").csv"
 
+# Output to CSV
 df.to_csv(fileName)
