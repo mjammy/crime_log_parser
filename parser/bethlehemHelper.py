@@ -1,33 +1,69 @@
-import requests
 from bs4 import BeautifulSoup
 
-###############################
-########## API Stuff ##########
-###############################
+################################
+##########  Selenium  ##########
+################################
 
-''' Make POST for searching by date '''
+from selenium import webdriver
+from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.keys import Keys
+import time
 
-DOCKSHEET_URL = "https://ujsportal.pacourts.us/DocketSheets/MDJ.aspx"
-payload = ""
-headers = {
-    'origin': "https://ujsportal.pacourts.us",
-    'upgrade-insecure-requests': "1",
-    'content-type': "application/x-www-form-urlencoded",
-    'user-agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36",
-    'x-devtools-emulate-network-conditions-client-id': "(26392B431ACC5F9C636883E3DBF5039F)",
-    'accept': "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
-    'referer': "https://ujsportal.pacourts.us/DocketSheets/MDJ.aspx",
-    'accept-encoding': "gzip, deflate, br",
-    'accept-language': "en-US,en;q=0.9",
-    'cookie': "f5_cspm=1234; ASP.NET_SessionId=5ljcelkwzj0wx3zumsbvbuir; f5avr1149697488aaaaaaaaaaaaaaaa=MPLEAIDIODICPBFIAIPFALHMMGNJHFJELPLHMEIIMMGLKALNNDHOIMANCIOLPPNCEGCCOGJDJJGACOJDKNFAIPFNBGEBBMFOFJGONHCIPADJAOGHAGKGJFLNFOJFNGJA; f5avrbbbbbbbbbbbbbbbb=DDJJNMKIKJGMGLHOFKBBOAPGBOENDGGIILFGDEMNICPIBPCLAEGPJADDCFOJPGDILFGDEIHOAOFCOBJLCDNAKPHLKMMEDNPGMLHPADMIGLAHLCAMEACNBGBDLANKHAKJ; ASP.NET_SessionId=5ljcelkwzj0wx3zumsbvbuir; f5avrbbbbbbbbbbbbbbbb=BKIJHJMAABAGNNLAIOJCGFOJHCFNCHBJGFGIOPGFLFJNBNPFPJBGGPNIOGFELDJEIJEDEEFECAEJLEMCGMJAANFHLNBHALOELJAJIGOEMIBNFACGPMIGMFOLLEAGIKNO",
-    'cache-control': "no-cache",
-    'postman-token': "a88a55d1-41bb-f598-1032-05f296c3929c"
-    }
+DRIVER = None
+URL = 'https://ujsportal.pacourts.us/DocketSheets/MDJ.aspx'
 
-def searchDateRange():
-    response = requests.request("POST", DOCKSHEET_URL, data = payload, headers = headers)
-    soup = BeautifulSoup(response.content, 'html.parser')
+def initializeDriver():
+    global DRIVER
+    if DRIVER is None:
+        DRIVER = webdriver.Chrome('/usr/local/bin/chromedriver')
+
+def accessSite():
+    DRIVER.get(URL)
+
+''' Making search '''
+
+def fillSearchCriteria():
+
+    # Search type: Date Filed
+    selectSearchType = Select(DRIVER.find_element_by_name('ctl00$ctl00$ctl00$cphMain$cphDynamicContent$ddlSearchType'))
+    selectSearchType.select_by_visible_text('Date Filed')
+
+    # County: Northampton
+    selectCounty = Select(DRIVER.find_element_by_name('ctl00$ctl00$ctl00$cphMain$cphDynamicContent$cphSearchControls$udsDateFiled$ddlCounty'))
+    selectCounty.select_by_visible_text('Northampton')
+
+    # Give the website a second to load office choices
+    time.sleep(3)
+
+    # Court Office: Northampton
+    selectCourtOffice = Select(DRIVER.find_element_by_name('ctl00$ctl00$ctl00$cphMain$cphDynamicContent$cphSearchControls$udsDateFiled$ddlCourtOffice'))
+    selectCourtOffice.select_by_value("3210")
+
+    # Choose Start Date
+    startDate = DRIVER.find_element_by_name('ctl00$ctl00$ctl00$cphMain$cphDynamicContent$cphSearchControls$udsDateFiled$drpFiled$beginDateChildControl$DateTextBox')
+    for i in range(12): 
+        startDate.send_keys(Keys.LEFT)
+    startDate.send_keys("01102018")
+
+    # Choose End Date
+    startDate = DRIVER.find_element_by_name('ctl00$ctl00$ctl00$cphMain$cphDynamicContent$cphSearchControls$udsDateFiled$drpFiled$endDateChildControl$DateTextBox')
+    for i in range(12): 
+        startDate.send_keys(Keys.LEFT)
+    startDate.send_keys("01172018")
+
+def submitSearch():
+    searchButton = DRIVER.find_element_by_name('ctl00$ctl00$ctl00$cphMain$cphDynamicContent$btnSearch')
+    searchButton.click()
+
+def grabHTML():
+    html = DRIVER.page_source
+    soup = BeautifulSoup(html, 'html.parser')
     return soup
+
+def advancePage():
+    time.sleep(5)
+    nextButton = DRIVER.find_element_by_xpath("//a[contains(@href,'Pager$ctl07')]")
+    nextButton.click()
 
 #############################
 ########## Parsing ##########
