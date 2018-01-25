@@ -8,43 +8,33 @@ accessSite()
 fillSearchCriteria()
 submitSearch()
 
-# Store search results
-searchResults = grabHTML()
+while True:
 
-for eachRow in range(2,12):
+    # Store search results
+    searchResults = grabHTML()
 
-    # Adds leading 0's in prep to search by id value
-    index = str(eachRow).zfill(2) 
+    # Sees how many rows are on the page and processes each
+    numRows = getNumRows(searchResults)
+    for eachRow in range(2,numRows+2):
 
-    # Gets case
-    case = getCase(searchResults, index)
+        # Adds leading 0's in prep to search by id value
+        index = str(eachRow).zfill(2) 
 
-    # Gets DOB
-    dateOfBirth = getDOB(searchResults, index)
-    
-    print("-----ROW " + index + "-----")
-    print(case)
-    print(dateOfBirth) 
+        # Gets case
+        case = getCase(searchResults, index)
 
-advancePage()
+        # Gets DOB
+        dateOfBirth = getDOB(searchResults, index)
+        
+        print("-----ROW " + index + "-----")
+        print(case)
+        print(dateOfBirth) 
 
-time.sleep(10)
+    # Make sure we're not done
+    if isLastPage(searchResults):
+        break
 
-searchResults2 = grabHTML()
-
-for eachRow in range(2,12):
-
-    # Adds leading 0's in prep to search by id value
-    index = str(eachRow).zfill(2) 
-
-    # Gets case
-    case = getCase(searchResults2, index)
-
-    # Gets DOB
-    dateOfBirth = getDOB(searchResults2, index)
-    
-    print("-----ROW " + index + "-----")
-    print(case)
-    print(dateOfBirth) 
+    # Moves on to the next page
+    advancePage()
 
 

@@ -64,10 +64,20 @@ def advancePage():
     time.sleep(5)
     nextButton = DRIVER.find_element_by_xpath("//a[contains(@href,'Pager$ctl07')]")
     nextButton.click()
+    time.sleep(10)
 
 #############################
 ########## Parsing ##########
 #############################
+
+def getNumRows(soup):
+    rows = soup.find_all(class_ = 'gridViewRow')
+    return len(rows)
+
+def isLastPage(soup):
+    spanID = 'ctl00_ctl00_ctl00_cphMain_cphDynamicContent_cstPager'
+    lastButton = soup.find(id = spanID).div.contents[-2].attrs
+    return 'href' not in lastButton
 
 ''' Getters for each field of the row '''
 
