@@ -2,8 +2,16 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 import datetime
+import os
 
 from downloaderHelper import *
+from commandArgs import *
+
+DIR = ''
+argDir = getDir()
+if (argDir):
+        DIR = argDir
+print (DIR)
 
 urlTemp = 'https://police.lehigh.edu/crime-log?page='
 lastPage = getLastPage()
@@ -46,4 +54,4 @@ now = datetime.datetime.now()
 fileName = "lehigh_log(" + now.strftime("%Y-%m-%d") + ").csv"
 
 # Output to CSV
-df.to_csv(fileName)
+df.to_csv(os.path.join("/" + DIR + "/",fileName))
