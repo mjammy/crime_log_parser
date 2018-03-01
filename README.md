@@ -4,6 +4,8 @@ Continually request and parse through Lehigh's crime logs, save the data to a da
 
 ## Usage Notes
 
+To run the parser, navigate run downloader.py.
+For help use the -h command.
 
 ## Branches
 * Master
