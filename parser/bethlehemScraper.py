@@ -8,6 +8,12 @@ accessSite()
 fillSearchCriteria()
 submitSearch()
 
+caseList = []
+dateList = []
+dateOfBirthList = []
+allLists = [caseList,dateList,dateOfBirthList]
+
+
 while True:
 
     # Store search results
@@ -23,11 +29,15 @@ while True:
         # Gets case
         case = getCase(searchResults, index)
 
+        # Gets date
+        date = getDate(searchResults)
+
         # Gets DOB
         dateOfBirth = getDOB(searchResults, index)
         
         print("-----ROW " + index + "-----")
         print(case)
+        print(date)
         print(dateOfBirth) 
 
     # Make sure we're not done

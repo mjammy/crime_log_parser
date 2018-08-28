@@ -15,6 +15,7 @@ name = "pypi"
 selenium = "*"
 requests = "*"
 pandas = "*"
+argparse = "*"
 
 
 [requires]

@@ -9,7 +9,7 @@ def getDir():
         )
 
     # Add directory argument of type str
-    parser.add_argument('-d','--directory', metavar='', type=str, help='a (fully specified path to a) directory to be the destination. Ex: "Users/Musa/Documents"')
+    parser.add_argument('-d','--directory', metavar='', type=str, help='a (fully specified path to a) directory to be the destination. Ex: "~/Documents/Lehigh/"')
 
     # Save args
     args = parser.parse_args()

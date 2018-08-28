@@ -88,6 +88,12 @@ def getCase(soup, index):
     case = soup.find(id = caseID).getText()
     return case
 
+def getDate(soup):
+    id = 'ctl00_ctl00_ctl00_cphMain_cphDynamicContent_cphResults_gvDocket'
+    table = soup.find(id = id)
+    row1 = table.tbody.find_all('tr')[1].find_all('td')[10].getText()
+    return row1
+
 def getDOB(soup, index):
     dateOfBirthID = BASE_ID + index + '_ctl02'
     dateOfBirth = soup.find(id = dateOfBirthID).span.getText()
