@@ -10,7 +10,6 @@ pylint = "*"
 "bs4" = "*"
 selenium = "*"
 requests = "*"
-pandas = "*"
 
 [requires]
 python_version = "3.7"

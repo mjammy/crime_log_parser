@@ -1,38 +1,28 @@
-from typing import List
+from typing import Iterable
 from datetime import date
 import os
 
-import requests
-from bs4 import BeautifulSoup
-
 from options import Options
 from lu_crime_record import LUCrimeRecord
+from lu_crime_log_parser import get_records
 from downloaderHelper import *
+
+
+crime_log_url = 'https://police.lehigh.edu/crime-log'
 
 class LUCrimeLog:
     options: Options
-    records: List[LUCrimeRecord]
+    records: Iterable[LUCrimeRecord]
 
     def __init__(self, options: Options):
         self.options = options
-        self.records = []
+        self.records = None
 
     def process(self):
-        urlTemp = 'https://police.lehigh.edu/crime-log?page='
-        lastPage = getLastPage()
-
-        for eachPage in range(0,lastPage+1):
-            url = urlTemp + str(eachPage)
-
-            page = requests.get(url)
-            soup = BeautifulSoup(page.content, 'html.parser')
-
-            for eachReport in soup.find_all('div', class_='views-row'):
-                elements = eachReport.contents
-                self.records.append(get_record(elements))
+        self.records = get_records()
 
     def write(self):
-        file_name: str = f'lehigh_log_${date.today().isoformat()}.csv'
+        file_name: str = f'lehigh_log_{date.today().isoformat()}.csv'
         path: str = os.path.join(self.options.directory, file_name)
         LUCrimeRecord.to_csv(path, self.records)
 
