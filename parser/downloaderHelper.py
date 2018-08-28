@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+from lu_crime_record import LUCrimeRecord
 
 def getLastPage(url='https://police.lehigh.edu/crime-log'):
     page= requests.get(url)
@@ -77,31 +78,14 @@ def getDescription(OGForm):
 
 ''' High level helpers '''
 
-def getReport(elements):
-    report = []
-    report.append(getReportedOn(elements))
-    report.append(getIncidentDateTime(elements))
-    report.append(getDisposition(elements))
-    report.append(getIncidentType(elements))
-    report.append(getSuspectName(elements))
-    report.append(getIncidentLocation(elements))
-    report.append(getReportNumber(elements))
-    report.append(getDescription(elements))
-    return report
-
-def printReport(elements):
-    print(getReportedOn(elements))
-    print(getIncidentDateTime(elements))
-    print(getDisposition(elements))
-    print(getIncidentType(elements))
-    print(getSuspectName(elements))
-    print(getIncidentLocation(elements))
-    print(getReportNumber(elements))
-    print(getDescription(elements))
-    print('\n')
-
-def appendReport(report, allLists):
-    for eachPart in range(0,8):
-        allLists[eachPart].append(report[eachPart])
-    
-    
+def get_record(elements) -> LUCrimeRecord:
+    return LUCrimeRecord(
+        getReportedOn(elements),
+        getIncidentDateTime(elements),
+        getDisposition(elements),
+        getIncidentType(elements),
+        getSuspectName(elements),
+        getIncidentLocation(elements),
+        getReportNumber(elements),
+        getDescription(elements)
+    )
