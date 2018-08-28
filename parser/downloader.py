@@ -10,7 +10,7 @@ from commandArgs import *
 DIR = ''
 argDir = getDir()
 if (argDir):
-        DIR = argDir
+    DIR = argDir
 print (DIR)
 
 urlTemp = 'https://police.lehigh.edu/crime-log?page='
@@ -38,20 +38,22 @@ for eachPage in range(0,lastPage+1):
         appendReport(report,allLists)
 
 
-d = {   "Reported_On" : reportedOnList,
-        "Incident_Date_Time" :incidentDateTimeList,
-        "Disposition" : dispositionList,
-        "Incident_Type" : incidentTypeList,
-        "Suspect_Name" : suspectNameList,
-        "Incident_Location" : incidentLocationList,
-        "Report_Number" : reportNumberList,
-        "Description" : descriptionList}
+d = {
+    "Reported_On" : reportedOnList,
+    "Incident_Date_Time" :incidentDateTimeList,
+    "Disposition" : dispositionList,
+    "Incident_Type" : incidentTypeList,
+    "Suspect_Name" : suspectNameList,
+    "Incident_Location" : incidentLocationList,
+    "Report_Number" : reportNumberList,
+    "Description" : descriptionList
+}
 
 df = pd.DataFrame(d)
 
 # Set up file name structure
-now = datetime.datetime.now()
-fileName = "lehigh_log(" + now.strftime("%Y-%m-%d") + ").csv"
+now = datetime.datetime.now().strftime("%Y-%m-%d")
+fileName = f'lehigh_log({now}).csv'
 
 # Output to CSV
-df.to_csv(os.path.join("/" + DIR + "/",fileName))
+df.to_csv(os.path.join(f'/{DIR}', fileName))
