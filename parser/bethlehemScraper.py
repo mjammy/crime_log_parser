@@ -2,7 +2,7 @@ import time
 
 from bethlehemHelper import *
 
-''' Navigate website, perform search '''
+# Navigate website, perform search
 initializeDriver()
 accessSite()
 fillSearchCriteria()
@@ -26,7 +26,7 @@ while True:
         # Gets DOB
         dateOfBirth = getDOB(searchResults, index)
         
-        print("-----ROW " + index + "-----")
+        print(f"-----ROW {index}-----")
         print(case)
         print(dateOfBirth) 
 

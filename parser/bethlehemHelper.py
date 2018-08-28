@@ -20,7 +20,7 @@ def initializeDriver():
 def accessSite():
     DRIVER.get(URL)
 
-''' Making search '''
+# Making search
 
 def fillSearchCriteria():
 
@@ -79,7 +79,7 @@ def isLastPage(soup):
     lastButton = soup.find(id = spanID).div.contents[-2].attrs
     return 'href' not in lastButton
 
-''' Getters for each field of the row '''
+# Getters for each field of the row
 
 BASE_ID = 'ctl00_ctl00_ctl00_cphMain_cphDynamicContent_cphResults_gvDocket_ctl'
 
