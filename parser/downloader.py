@@ -5,13 +5,9 @@ import datetime
 import os
 
 from downloaderHelper import *
-from commandArgs import *
+from options import Options
 
-DIR = ''
-argDir = getDir()
-if (argDir):
-    DIR = argDir
-print (DIR)
+options: Options = Options.from_cli()
 
 urlTemp = 'https://police.lehigh.edu/crime-log?page='
 lastPage = getLastPage()
@@ -40,7 +36,7 @@ for eachPage in range(0,lastPage+1):
 
 d = {
     "Reported_On" : reportedOnList,
-    "Incident_Date_Time" :incidentDateTimeList,
+    "Incident_Date_Time" : incidentDateTimeList,
     "Disposition" : dispositionList,
     "Incident_Type" : incidentTypeList,
     "Suspect_Name" : suspectNameList,
@@ -56,4 +52,4 @@ now = datetime.datetime.now().strftime("%Y-%m-%d")
 fileName = f'lehigh_log({now}).csv'
 
 # Output to CSV
-df.to_csv(os.path.join(f'/{DIR}', fileName))
+df.to_csv(os.path.join(f'/{options.directory}', fileName))
