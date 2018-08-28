@@ -1,8 +1,9 @@
+from __future__ import annotations
 import argparse
 import os
 
 class Options:
-    directory: str = None
+    directory: str
 
     def __init__(self, directory: str):
         self.directory = directory
@@ -14,7 +15,7 @@ class Options:
         return self.__str__()
     
     @staticmethod
-    def from_cli():
+    def from_cli() -> Options:
         # Create argument parser to program
         parser = argparse.ArgumentParser(
             prog = 'downloader.py',
