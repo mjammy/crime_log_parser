@@ -10,6 +10,7 @@ pylint = "*"
 "bs4" = "*"
 selenium = "*"
 requests = "*"
+python-dateutil = "*"
 
 [requires]
 python_version = "3.7"
