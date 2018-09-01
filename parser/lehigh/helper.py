@@ -2,10 +2,10 @@ from typing import Iterator
 import requests
 from bs4 import BeautifulSoup
 
-from lu_crime_record import LUCrimeRecord
-from downloaderHelper import *
+from lehigh.crime_record import CrimeRecord
 
 CRIME_LOG_URL = 'https://police.lehigh.edu/crime-log'
+
 
 def _get_page_count() -> int:
     response = requests.get(CRIME_LOG_URL)
@@ -16,14 +16,14 @@ def _get_page_count() -> int:
     return page_count
 
 
-def get_records() -> Iterator[LUCrimeRecord]:
+def get_records() -> Iterator[CrimeRecord]:
     for page_number in range(_get_page_count()):
         page_url = f'{CRIME_LOG_URL}?page={page_number}'
         response = requests.get(page_url)
         page = BeautifulSoup(response.content, 'html.parser')
 
         for row in page.find_all('div', class_='views-row'):
-            record = LUCrimeRecord.from_views_row(row)
+            record = CrimeRecord.from_views_row(row)
             if record is not None:
                 yield record
 

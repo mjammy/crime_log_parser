@@ -24,12 +24,17 @@ class Options:
 
         # Add directory argument of type str
         parser.add_argument(
-            '-d', '--directory', metavar='', type=str, default=os.getcwd(),
-            help='A (fully specified path to a) directory to be the destination. Ex: "Users/Musa/Documents". Defaults to current working directory.'
+            '-d', '--directory', metavar='', type=str, default=os.path.abspath('../data'),
+            help=(
+                'A (fully specified path to a) directory to be the destination. '
+                'Ex: "Users/Musa/Documents". '
+                'Defaults to current working directory. '
+            )
         )
 
         args = parser.parse_args()
         return Options(args.directory)
+
 
 if __name__ == '__main__':
     print(Options.from_cli())
